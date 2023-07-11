@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spring Boot</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/navbar-static/">
+    <script src="https://kit.fontawesome.com/949dcd6b8d.js" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" th:href="@{/bootstrap-5.3.0-dist/css/bootstrap.min.css}">
+    <script th:src="@{/jquery-3.7.0-dist/jquery-3.7.0.min.js}"></script>
+    <script th:src="@{/bootstrap-5.3.0-dist/js/bootstrap.min.js}"></script>
+    <script th:src="@{/bootstrap-5.3.0-dist/js/bootstrap.bundle.min.js}"></script>
+
+    <style>
+        .mensagem {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div th:replace="~{fragments/nav :: nav}"></div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h2 class="mb-5" th:if="${isNewSupplier}">Supplier Registration</h2>
+                <h2 class="mb-5" th:if="${!isNewSupplier}">Edit Supplier</h2>
+
+                <div class="alert alert-success alert-dismissible fade show" th:if="${mensagem}">
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    <span th:text="${mensagem}"></span>
+                </div>
+
+                <form action="#" th:if="${isNewSupplier}" th:action="@{/supplier/save}" th:object="${supplier}" method="post">
+                    <div class="mb-3">
+                        <label for="exampleInputName1" class="form-label">Name Supplier: </label>
+                        <input type="text" class="form-control" th:field="*{name}" id="exampleInputName1"
+                            aria-describedby="nameHelp">
+                        <div class="col-sm-5">
+                            <span class="mensagem" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputCNPJ1" class="form-label">CNPJ</label>
+                        <input type="text" class="form-control" th:field="*{CNPJ}" id="exampleInputCNPJ1"
+                            aria-describedby="cnpjHelp">
+                        <div class="col-sm-5">
+                            <span class="mensagem" th:if="${#fields.hasErrors('CNPJ')}" th:errors="*{CNPJ}"></span>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+
+                <form action="#" th:if="${!isNewSupplier}" th:action="@{/supplier/admin/update/{id}(id=${supplier.id})}" th:object="${supplier}" method="post">
+                    <div class="mb-3">
+                        <label for="exampleInputName1" class="form-label">Name Supplier: </label>
+                        <input type="text" class="form-control" th:field="*{name}" id="exampleInputName1"
+                            aria-describedby="nameHelp">
+                        <div class="col-sm-5">
+                            <span class="mensagem" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputCNPJ1" class="form-label">CNPJ</label>
+                        <input type="text" class="form-control" th:field="*{CNPJ}" id="exampleInputCNPJ1"
+                            aria-describedby="cnpjHelp">
+                        <div class="col-sm-5">
+                            <span class="mensagem" th:if="${#fields.hasErrors('CNPJ')}" th:errors="*{CNPJ}"></span>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
