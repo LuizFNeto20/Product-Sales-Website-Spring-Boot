@@ -28,7 +28,7 @@ public class SupplierServiceImplements implements SupplierService {
         if (supplier.isPresent()) {
             return supplier.get();
         } else {
-            throw new IllegalArgumentException("Usuario com id : " + id + " não encontrado");
+            throw new IllegalArgumentException(id + " não encontrado");
         }
     }
 

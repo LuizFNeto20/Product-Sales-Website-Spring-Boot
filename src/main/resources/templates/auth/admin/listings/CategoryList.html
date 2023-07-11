@@ -19,47 +19,47 @@
 <body>
     <div th:replace="~{fragments/nav :: nav}"></div>
 
-    <h1 class="text-center mb-5">Supplier List</h1>
+    <h1 class="text-center mb-5">Category List</h1>
 
     <table class="table table-hover m-2">
         <thead>
             <tr>
                 <th>ID</th>
                 <th>Name</th>
-                <th>CNPJ</th>
+                <th>Description</th>
                 <th></th>
                 <th></th>
             </tr>
         </thead>
 
         <tbody class="table-group-divider">
-            <tr th:if="${suppliers.empty}">
-                <td colspan="2">No suppliers</td>
+            <tr th:if="${categoryList.empty}">
+                <td colspan="2">No categories</td>
             </tr>
-            <tr th:each="supplier : ${suppliers}">
+            <tr th:each="category : ${categoryList}">
                 <td>
-                    <span th:text="${supplier.id}"> ID </span>
+                    <span th:text="${category.id}"> ID </span>
                 </td>
 
                 <td>
-                    <span th:text="${supplier.name}"> Name </span>
+                    <span th:text="${category.name}"> Name </span>
                 </td>
 
                 <td>
-                    <span th:text="${supplier.CNPJ}"> CNPJ </span>
+                    <span th:text="${category.description}"> Description </span>
                 </td>
 
                 <td>
                     <a class="btn btn-outline-danger btn-sm" 
-                        th:href="@{/supplier/admin/delete/{id}(id=${supplier.id})}"
-                        th:data-confirm-delete="|Você gostaria de apagar ${supplier.name}?|"
+                        th:href="@{/category/admin/delete/{id}(id=${category.id})}"
+                        th:data-confirm-delete="|Você gostaria de apagar ${category.name}?|"
                         onclick="if (!confirm(this.getAttribute('data-confirm-delete'))) return false">
                         Delete
                     </a>
                 </td>
 
                 <td>
-                    <a class="btn btn-outline-primary btn-sm" th:href="@{/supplier/admin/edit/{id}(id=${supplier.id})}">
+                    <a class="btn btn-outline-primary btn-sm" th:href="@{/category/admin/edit/{id}(id=${category.id})}">
                         Edit
                     </a>
                 </td>
@@ -67,7 +67,7 @@
         </tbody>
     </table>
 
-    <a class="btn btn-primary m-2" href="/supplier/new">New</a>
+    <a class="btn btn-primary m-2" href="/category/new">New</a>
 </body>
 
 </html>

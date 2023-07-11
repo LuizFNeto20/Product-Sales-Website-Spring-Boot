@@ -28,17 +28,17 @@
     <div class="container">
         <div class="row">
             <div class="col">
-                <h2 class="mb-5" th:if="${isNewSupplier}">Supplier Registration</h2>
-                <h2 class="mb-5" th:if="${!isNewSupplier}">Edit Supplier</h2>
+                <h2 class="mb-5" th:if="${isNewCategory}">Category Registration</h2>
+                <h2 class="mb-5" th:if="${!isNewCategory}">Edit Category</h2>
 
                 <div class="alert alert-success alert-dismissible fade show" th:if="${mensagem}">
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                     <span th:text="${mensagem}"></span>
                 </div>
 
-                <form action="#" th:if="${isNewSupplier}" th:action="@{/supplier/save}" th:object="${supplier}" method="post">
+                <form action="#" th:if="${isNewCategory}" th:action="@{/category/save}" th:object="${category}" method="post">
                     <div class="mb-3">
-                        <label for="exampleInputName1" class="form-label">Name Supplier: </label>
+                        <label for="exampleInputName1" class="form-label">Name Category: </label>
                         <input type="text" class="form-control" th:field="*{name}" id="exampleInputName1"
                             aria-describedby="nameHelp">
                         <div class="col-sm-5">
@@ -46,20 +46,20 @@
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label for="exampleInputCNPJ1" class="form-label">CNPJ:</label>
-                        <input type="text" class="form-control" th:field="*{CNPJ}" id="exampleInputCNPJ1"
-                            aria-describedby="cnpjHelp">
+                        <label for="exampleInputdescription1" class="form-label">Description: </label>
+                        <input type="text" class="form-control" th:field="*{description}" id="exampleInputdescription1"
+                            aria-describedby="descriptionHelp">
                         <div class="col-sm-5">
-                            <span class="mensagem" th:if="${#fields.hasErrors('CNPJ')}" th:errors="*{CNPJ}"></span>
+                            <span class="mensagem" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></span>
                         </div>
                     </div>
 
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
 
-                <form action="#" th:if="${!isNewSupplier}" th:action="@{/supplier/admin/update/{id}(id=${supplier.id})}" th:object="${supplier}" method="post">
+                <form action="#" th:if="${!isNewCategory}" th:action="@{/category/admin/update/{id}(id=${category.id})}" th:object="${category}" method="post">
                     <div class="mb-3">
-                        <label for="exampleInputName1" class="form-label">Name Supplier: </label>
+                        <label for="exampleInputName1" class="form-label">Name Category: </label>
                         <input type="text" class="form-control" th:field="*{name}" id="exampleInputName1"
                             aria-describedby="nameHelp">
                         <div class="col-sm-5">
@@ -67,11 +67,11 @@
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label for="exampleInputCNPJ1" class="form-label">CNPJ:</label>
-                        <input type="text" class="form-control" th:field="*{CNPJ}" id="exampleInputCNPJ1"
-                            aria-describedby="cnpjHelp">
+                        <label for="exampleInputdescription1" class="form-label">Description: </label>
+                        <input type="text" class="form-control" th:field="*{description}" id="exampleInputdescription1"
+                            aria-describedby="descriptionHelp">
                         <div class="col-sm-5">
-                            <span class="mensagem" th:if="${#fields.hasErrors('CNPJ')}" th:errors="*{CNPJ}"></span>
+                            <span class="mensagem" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></span>
                         </div>
                     </div>
 

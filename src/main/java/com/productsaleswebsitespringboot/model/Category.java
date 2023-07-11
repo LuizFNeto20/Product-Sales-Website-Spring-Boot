@@ -22,7 +22,7 @@ public class Category {
 
     private String description;
 
-    @OneToMany(mappedBy = "category", orphanRemoval = true)
+    @OneToMany(mappedBy = "category")
     private List<Product> products;
 
     public long getId() {
