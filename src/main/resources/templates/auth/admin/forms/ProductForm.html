@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
@@ -8,7 +8,7 @@
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/navbar-static/">
     <script src="https://kit.fontawesome.com/949dcd6b8d.js" crossorigin="anonymous"></script>
-    
+
     <link rel="stylesheet" th:href="@{/bootstrap-5.3.0-dist/css/bootstrap.min.css}">
     <script th:src="@{/jquery-3.7.0-dist/jquery-3.7.0.min.js}"></script>
     <script th:src="@{/bootstrap-5.3.0-dist/js/bootstrap.min.js}"></script>
@@ -28,81 +28,126 @@
     <div class="container">
         <div class="row">
             <div class="col">
-                <h2>Product registration</h2>
-                <!-- <div class="alert alert-success alert-dismissible fade show" th:if="${mensagem}">
+                <h2 class="mb-5" th:if="${isNewProduct}">Product Registration</h2>
+                <h2 class="mb-5" th:if="${!isNewProduct}">Edit Product</h2>
+
+                <div class="alert alert-success alert-dismissible fade show" th:if="${mensagem}">
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                    <span></span>
+                    <span th:text="${mensagem}"></span>
                 </div>
 
-                <form action="#" th:action="#" th:object="${usuario}" method="post">
-                    <div class="row mb-3">
-                        <label class="col-sm-1 col-form-label">Nome:</label>
+                <form action="#" th:if="${isNewProduct}" th:action="@{/product/save}" enctype="multipart/form-data" th:object="${product}" method="post">
+                    <div class="mb-3">
+                        <label for="exampleInputName1" class="form-label">Name Product: </label>
+                        <input type="text" class="form-control" th:field="*{name}" id="exampleInputName1"
+                            aria-describedby="nameHelp">
                         <div class="col-sm-5">
-                            <input class="form-control" type="text" th:field="*{nome}">
-                        </div>
-                        <div class="col-sm-5">
-                            <span class="mensagem" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></span>
+                            <span class="mensagem" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
                         </div>
                     </div>
 
-                    <div class="row mb-3">
-                        <label class="col-sm-1 col-form-label">CPF:</label>
-                        <div class="col-sm-3">
-                            <input class="form-control" type="text" th:field="*{cpf}">
-                        </div>
+                    <div class="mb-3">
+                        <label for="exampleInputimage1" class="form-label">Image: </label>
+                        <input type="file" name="file" class="form-control" id="InputImage" aria-describedby="imageHelp">
                         <div class="col-sm-5">
-                            <span class="mensagem" th:if="${#fields.hasErrors('cpf')}" th:errors="*{cpf}"></span>
+                            <span class="mensagem" th:if="${#fields.hasErrors('image')}" th:errors="*{image}"></span>
                         </div>
                     </div>
 
-
-                    <div class="row mb-3">
-                        <label class="col-sm-1 col-form-label">Nascimento:</label>
-                        <div class="col-sm-2">
-                            <input class="form-control" type="text" th:field="*{dataNascimento}">
-                        </div>
+                    <div class="mb-3">
+                        <label for="exampleInputprice1" class="form-label">Price: </label>
+                        <input type="number" class="form-control" th:field="*{price}" id="exampleInputprice1"
+                            aria-describedby="priceHelp">
                         <div class="col-sm-5">
-                            <span class="mensagem" th:if="${#fields.hasErrors('dataNascimento')}"
-                                th:errors="*{dataNascimento}"></span>
+                            <span class="mensagem" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></span>
                         </div>
                     </div>
 
+                    <div class="mb-3">
+                        <label for="exampleInputprice1" class="form-label">Category: </label>
 
-                    <div class="row mb-3">
-                        <label class="col-sm-1 col-form-label">Email:</label>
-                        <div class="col-sm-2">
-                            <input class="form-control" type="text" th:field="*{email}">
-                        </div>
+                        <select th:field="*{Category}" class="form-control">
+                            <option th:each="category : ${categories}" th:value="${category.id}"
+                                th:text="${category.name}"></option>
+                        </select>
+
                         <div class="col-sm-5">
-                            <span class="mensagem" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+                            <span class="mensagem" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></span>
                         </div>
                     </div>
 
-                    <div class="row mb-3">
-                        <label class="col-sm-1 col-form-label">Login:</label>
-                        <div class="col-sm-2">
-                            <input class="form-control" type="text" th:field="*{login}">
-                        </div>
+                    <div class="mb-3">
+                        <label for="exampleInputprice1" class="form-label">Supplier: </label>
+
+                        <select th:field="*{supplier}" class="form-control">
+                            <option th:each="supplier : ${suppliers}" th:value="${supplier.id}"
+                                th:text="${supplier.name}"></option>
+                        </select>
+
                         <div class="col-sm-5">
-                            <span class="mensagem" th:if="${#fields.hasErrors('login')}" th:errors="*{login}"></span>
-                            <span class="mensagem" th:if="${loginExiste}"></span>
+                            <span class="mensagem" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></span>
                         </div>
                     </div>
 
-                    <div class="row mb-3">
-                        <label class="col-sm-1 col-form-label" >Senha:</label>
-                        <div class="col-sm-2">
-                            <input class="form-control" type="text" th:field="*{password}">
-                        </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+
+                <form action="#" th:if="${!isNewProduct}" th:action="@{/product/admin/update/{id}(id=${product.id})}" enctype="multipart/form-data" th:object="${product}" method="post">
+                    <div class="mb-3">
+                        <label for="exampleInputName1" class="form-label">Name Product: </label>
+                        <input type="text" class="form-control" th:field="*{name}" id="exampleInputName1"
+                            aria-describedby="nameHelp">
                         <div class="col-sm-5">
-                            <span class="mensagem" th:if="${#fields.hasErrors('password')}"
-                                th:errors="*{password}"></span>
+                            <span class="mensagem" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
                         </div>
                     </div>
 
-                    <input class="btn btn-primary" type="submit" th:value="#{form.button}" />
-                </form> -->
+                    <div class="mb-3">
+                        <label for="exampleInputimage1" class="form-label">Image: </label>
+                        <input type="file" name="file" class="form-control" id="InputImage" aria-describedby="imageHelp">
+                        <input type="hidden" name="oldImage" th:value="*{image}" >
+                        <div class="col-sm-5">
+                            <span class="mensagem" th:if="${#fields.hasErrors('image')}" th:errors="*{image}"></span>
+                        </div>
+                    </div>
 
+                    <div class="mb-3">
+                        <label for="exampleInputprice1" class="form-label">Price: </label>
+                        <input type="number" class="form-control" th:field="*{price}" id="exampleInputprice1"
+                            aria-describedby="priceHelp">
+                        <div class="col-sm-5">
+                            <span class="mensagem" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></span>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="exampleInputprice1" class="form-label">Category: </label>
+
+                        <select th:field="*{Category}" class="form-control">
+                            <option th:each="category : ${categories}" th:value="${category.id}"
+                                th:text="${category.name}" th:selected="${category.id == product.category.id}"></option>
+                        </select>
+
+                        <div class="col-sm-5">
+                            <span class="mensagem" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></span>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="exampleInputprice1" class="form-label">Supplier: </label>
+
+                        <select th:field="*{supplier}" class="form-control">
+                            <option th:each="supplier : ${suppliers}" th:value="${supplier.id}"
+                                th:text="${supplier.name}" th:selected="${supplier.id == product.supplier.id}"></option>
+                        </select>
+
+                        <div class="col-sm-5">
+                            <span class="mensagem" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></span>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
             </div>
         </div>
     </div>

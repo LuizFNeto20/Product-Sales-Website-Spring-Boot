@@ -13,15 +13,31 @@
     <script th:src="@{/jquery-3.7.0-dist/jquery-3.7.0.min.js}"></script>
     <script th:src="@{/bootstrap-5.3.0-dist/js/bootstrap.min.js}"></script>
     <script th:src="@{/bootstrap-5.3.0-dist/js/bootstrap.bundle.min.js}"></script>
-
 </head>
+
+<style>
+    img{
+        width: 100px;
+        border-radius: 50%;
+    }
+
+    th {
+        text-align: center;
+    }
+
+    td {
+        text-align: center;
+        vertical-align: middle;
+    }
+
+</style>
 
 <body>
     <div th:replace="~{fragments/nav :: nav}"></div>
 
     <h1 class="text-center mb-5">Products List</h1>
 
-    <table class="table table-hover">
+    <table class="table table-hover m-2">
         <thead>
             <tr>
                 <th>ID</th>
@@ -30,45 +46,48 @@
                 <th>Price</th>
                 <th>Supplier</th>
                 <th>Category</th>
+                <th></th>
+                <th></th>
             </tr>
         </thead>
 
-        <tbody>
+        <tbody class="table-group-divider">
             <tr th:if="${products.empty}">
                 <td colspan="2">No products</td>
             </tr>
             <tr th:each="product : ${products}">
                 <td>
-                    <span th:text="${product.id}"> ID </span>
+                    <span th:text="${product.id}"></span>
                 </td>
 
                 <td>
-                    <span> Image </span>
+                    <img th:src="@{/product/showImage/{image}(image=${product.image})}" alt="">
                 </td>
 
                 <td>
-                    <span th:text="${product.name}"> Name </span>
+                    <span th:text="${product.name}"></span>
                 </td>
                 <td>
-                    <span th:text="${product.price}"> Price </span>
+                    <span th:text="${product.price}"></span>
                 </td>
                 <td>
-                    <span>Supplier</span>
+                    <span th:text="${product.supplier.name}"></span>
                 </td>
                 <td>
-                    <span> Category </span>
+                    <span th:text="${product.category.name}"></span>
                 </td>
 
                 <td>
                     <a class="btn btn-outline-danger btn-sm"
-                        th:data-confirm-delete="|Você gostaria de apagar ${usuario.nome}?|"
-                        onclick="if (!confirm(this.getAttribute('data-confirm-delete'))) return false" th:href="#">
+                        th:data-confirm-delete="|Você gostaria de apagar ${product.name}?|"
+                        onclick="if (!confirm(this.getAttribute('data-confirm-delete'))) return false"
+                        th:href="@{/product/admin/delete/{id}(id=${product.id})}">
                         Delete
                     </a>
                 </td>
 
                 <td>
-                    <a class="btn btn-outline-primary btn-sm">
+                    <a class="btn btn-outline-primary btn-sm" th:href="@{/product/admin/edit/{id}(id=${product.id})}">
                         Edit
                     </a>
                 </td>
@@ -76,7 +95,7 @@
         </tbody>
     </table>
 
-    <a class="btn btn-primary mb-2" href="/product/new">New</a>
+    <a class="btn btn-primary m-2" href="/product/new">New</a>
 </body>
 
 </html>

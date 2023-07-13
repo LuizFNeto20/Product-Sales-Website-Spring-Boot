@@ -16,6 +16,17 @@
 
 </head>
 
+<style>
+    th {
+        text-align: center;
+    }
+
+    td {
+        text-align: center;
+        vertical-align: middle;
+    }
+</style>
+
 <body>
     <div th:replace="~{fragments/nav :: nav}"></div>
 
@@ -50,8 +61,7 @@
                 </td>
 
                 <td>
-                    <a class="btn btn-outline-danger btn-sm" 
-                        th:href="@{/category/admin/delete/{id}(id=${category.id})}"
+                    <a class="btn btn-outline-danger btn-sm" th:href="@{/category/admin/delete/{id}(id=${category.id})}"
                         th:data-confirm-delete="|Você gostaria de apagar ${category.name}?|"
                         onclick="if (!confirm(this.getAttribute('data-confirm-delete'))) return false">
                         Delete

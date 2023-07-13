@@ -54,7 +54,7 @@ public class SupplierController {
     }
 
     @GetMapping("/admin/delete/{id}")
-    public String deleteSuplier(Model model, @PathVariable("id") long id) {
+    public String deleteSuplier(@PathVariable("id") long id) {
         supplierService.deleteSupplier(id);
         return "redirect:/supplier/admin/list";
     }
