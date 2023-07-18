@@ -42,7 +42,6 @@ public class UserController {
     @GetMapping("/new")
     public String newUser(Model model) {
         model.addAttribute("user", new Users());
-        model.addAttribute("isNewUser", true);
         return "/auth/user/UserForm";
     }
 
@@ -129,5 +128,12 @@ public class UserController {
         }
 
         return "redirect:/user/admin/list";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String edit(Model model, @PathVariable("id") long id) {
+        Users user = userService.getUserById(id);
+        model.addAttribute("user", user);
+        return "/auth/user/EditUserForm";
     }
 }

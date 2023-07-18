@@ -22,22 +22,20 @@
 </head>
 
 <body>
-
-    <div th:replace="~{fragments/nav :: nav}"></div>
-    <div th:replace="~{fragments/nav :: modal}"></div>
+    <div th:replace="~{auth/GenericNav :: GenericNav}"></div>
 
     <div class="container">
         <div class="row">
             <div class="col">
-                <h2 class="mb-5" th:if="${isNewUser}">User Registration</h2>
-                <h2 class="mb-5" th:if="${!isNewUser}">Edit User</h2>
+                <h2 class="mb-5">User Registration</h2>
 
                 <div class="alert alert-success alert-dismissible fade show" th:if="${mensagem}">
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                     <span th:text="${mensagem}"></span>
                 </div>
 
-                <form action="#" th:if="${isNewUser}" th:action="@{/user/save}" enctype="multipart/form-data" th:object="${user}" method="post">
+                <form action="#" th:action="@{/user/save}" enctype="multipart/form-data"
+                    th:object="${user}" method="post">
                     <div class="mb-3">
                         <label for="exampleInputName1" class="form-label">Name User: </label>
                         <input type="text" class="form-control" th:field="*{name}" id="exampleInputName1"
@@ -58,7 +56,8 @@
 
                     <div class="mb-3">
                         <label for="exampleInputimage1" class="form-label">Image: </label>
-                        <input type="file" name="file" class="form-control" id="InputImage" aria-describedby="imageHelp">
+                        <input type="file" name="file" class="form-control" id="InputImage"
+                            aria-describedby="imageHelp">
                         <div class="col-sm-5">
                             <span class="mensagem" th:if="${#fields.hasErrors('image')}" th:errors="*{image}"></span>
                         </div>
@@ -78,10 +77,11 @@
                         <input type="password" class="form-control" th:field="*{password}" id="exampleInputpassword1"
                             aria-describedby="passwordHelp">
                         <div class="col-sm-5">
-                            <span class="mensagem" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+                            <span class="mensagem" th:if="${#fields.hasErrors('password')}"
+                                th:errors="*{password}"></span>
                         </div>
                     </div>
- 
+
                     <div class="mb-3">
                         <label for="exampleInputcpf1" class="form-label">CPF: </label>
                         <input type="text" class="form-control" th:field="*{cpf}" id="exampleInputcpf1"
@@ -102,81 +102,16 @@
 
                     <div class="mb-3">
                         <label for="exampleInputhouseNumber1" class="form-label">House Number: </label>
-                        <input type="number" class="form-control" th:field="*{houseNumber}" id="exampleInputhouseNumber1"
-                            aria-describedby="houseNumberHelp">
+                        <input type="number" class="form-control" th:field="*{houseNumber}"
+                            id="exampleInputhouseNumber1" aria-describedby="houseNumberHelp">
                         <div class="col-sm-5">
-                            <span class="mensagem" th:if="${#fields.hasErrors('houseNumber')}" th:errors="*{houseNumber}"></span>
+                            <span class="mensagem" th:if="${#fields.hasErrors('houseNumber')}"
+                                th:errors="*{houseNumber}"></span>
                         </div>
                     </div>
 
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
-<!-- 
-                <form action="#" th:if="${!isNewUser}" th:action="@{/user/admin/update/{id}(id=${user.id})}" enctype="multipart/form-data" th:object="${user}" method="post">
-                    <div class="mb-3">
-                        <label for="exampleInputName1" class="form-label">Name User: </label>
-                        <input type="text" class="form-control" th:field="*{name}" id="exampleInputName1"
-                            aria-describedby="nameHelp">
-                        <div class="col-sm-5">
-                            <span class="mensagem" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="exampleInputimage1" class="form-label">Image: </label>
-                        <input type="file" name="file" class="form-control" id="InputImage" aria-describedby="imageHelp">
-                        <div class="col-sm-5">
-                            <span class="mensagem" th:if="${#fields.hasErrors('image')}" th:errors="*{image}"></span>
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="exampleInputemail1" class="form-label">Email: </label>
-                        <input type="email" class="form-control" th:field="*{email}" id="exampleInputemail1"
-                            aria-describedby="emailHelp">
-                        <div class="col-sm-5">
-                            <span class="mensagem" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="exampleInputpassword1" class="form-label">Password: </label>
-                        <input type="password" class="form-control" th:field="*{password}" id="exampleInputpassword1"
-                            aria-describedby="passwordHelp">
-                        <div class="col-sm-5">
-                            <span class="mensagem" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
-                        </div>
-                    </div>
- 
-                    <div class="mb-3">
-                        <label for="exampleInputcpf1" class="form-label">CPF: </label>
-                        <input type="text" class="form-control" th:field="*{cpf}" id="exampleInputcpf1"
-                            aria-describedby="cpfHelp">
-                        <div class="col-sm-5">
-                            <span class="mensagem" th:if="${#fields.hasErrors('cpf')}" th:errors="*{cpf}"></span>
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="exampleInputcep1" class="form-label">CEP: </label>
-                        <input type="text" class="form-control" th:field="*{cep}" id="exampleInputcep1"
-                            aria-describedby="cepHelp">
-                        <div class="col-sm-5">
-                            <span class="mensagem" th:if="${#fields.hasErrors('cep')}" th:errors="*{cep}"></span>
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="exampleInputhouseNumber1" class="form-label">House Number: </label>
-                        <input type="number" class="form-control" th:field="*{houseNumber}" id="exampleInputhouseNumber1"
-                            aria-describedby="houseNumberHelp">
-                        <div class="col-sm-5">
-                            <span class="mensagem" th:if="${#fields.hasErrors('houseNumber')}" th:errors="*{houseNumber}"></span>
-                        </div>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </form> -->
             </div>
         </div>
     </div>

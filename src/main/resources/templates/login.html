@@ -17,8 +17,7 @@
 </head>
 
 <body>
-  <div th:replace="~{fragments/nav :: nav}"></div>
-  <div th:replace="~{fragments/nav :: modal}"></div>
+  <div th:replace="~{auth/GenericNav :: GenericNav}"></div>
 
   <div class="alert alert-danger alert-dismissible fade show" th:if="${param.error}">
     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>

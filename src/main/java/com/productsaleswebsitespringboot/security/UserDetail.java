@@ -60,4 +60,12 @@ public class UserDetail implements UserDetails {
     public String getPassword() {
         return user.getPassword();
     }
+
+    public String getImage() {
+        return user.getImage();
+    }
+
+    public Long getId() {
+        return user.getId();
+    }
 }

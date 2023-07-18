@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<body>
+
+    <ul th:fragment="nav" class="nav navbar-nav">
+        <li class="nav-item dropdown">
+            <a href="#" class="nav-link dropdown-toggle text-light" data-bs-toggle="dropdown">
+                <img style="width: 35px; height: 35px; border-radius: 50%;"
+                    th:src="@{/user/showImage/{image}(image=${#authentication.getPrincipal().getImage()})}" alt="">
+            </a>
+
+            <div class="dropdown-menu dropdown-menu-end">
+                <a class="dropdown-item" href="#">Editar Conta</a>
+                <div class="dropdown-divider"></div>
+                <a href="/logout" class="dropdown-item">Logout</a>
+            </div>
+        </li>
+    </ul>
+
+</body>
+
+</html>
