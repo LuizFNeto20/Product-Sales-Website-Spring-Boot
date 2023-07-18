@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spring Boot</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/navbar-static/">
+    <script src="https://kit.fontawesome.com/949dcd6b8d.js" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" th:href="@{/bootstrap-5.3.0-dist/css/bootstrap.min.css}">
+    <script th:src="@{/jquery-3.7.0-dist/jquery-3.7.0.min.js}"></script>
+    <script th:src="@{/bootstrap-5.3.0-dist/js/bootstrap.min.js}"></script>
+    <script th:src="@{/bootstrap-5.3.0-dist/js/bootstrap.bundle.min.js}"></script>
+
+    <style>
+        .mensagem {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div th:replace="~{fragments/nav :: nav}"></div>
+    <div th:replace="~{fragments/nav :: modal}"></div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h2 class="mb-5">Edit User</h2>
+
+                <div class="alert alert-success alert-dismissible fade show" th:if="${mensagem}">
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    <span th:text="${mensagem}"></span>
+                </div>
+
+                <form action="#" th:action="@{/user/admin/update/{id}(id=${user.id})}" enctype="multipart/form-data" th:object="${user}" method="post">
+                    <div class="mb-3">
+                        <label for="exampleInputName1" class="form-label">Name User: </label>
+                        <input type="text" readonly class="form-control" th:field="*{name}" id="exampleInputName1"
+                            aria-describedby="nameHelp">
+                        <div class="col-sm-5">
+                            <span class="mensagem" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="exampleInputemail1" class="form-label">Email: </label>
+                        <input type="email" readonly class="form-control" th:field="*{email}" id="exampleInputemail1"
+                            aria-describedby="emailHelp">
+                        <div class="col-sm-5">
+                            <span class="mensagem" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="col-sm-1 col-form-label">Roles:</label>
+                        <div class="col-sm-2">
+                            <th:block th:each="role : ${roles}">
+                                <div th:if="${#lists.contains(user.userRoles, role)}" class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="idRoles" th:value="${role.id}"
+                                        checked />
+                                    <label class="form-check-label" th:text="${role.role}"></label>
+                                </div>
+                                <div th:unless="${#lists.contains(user.userRoles, role)}" class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="idRoles" th:value="${role.id}" />
+                                    <label class="form-check-label" th:text="${role.role}"></label>
+                                </div>
+                            </th:block>
+                        </div>
+                        <div class="col-sm-5">
+                            <span class="mensagem" th:if="${mensagem}" th:text="${mensagem}"></span>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary mt-3">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

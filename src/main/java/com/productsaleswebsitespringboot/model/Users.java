@@ -8,11 +8,16 @@ import org.springframework.data.annotation.CreatedDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrePersist;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -20,7 +25,7 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 @Entity
-public class Users {
+public class Users{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,6 +36,10 @@ public class Users {
     @NotNull
     @Size(min = 2, message = "O nome deve ter no mínimo 2 caracteres")
     private String name;
+
+    @NotNull
+	@Size(min = 4, message = "Login com no minimo 4 caracteres")
+	private String login;
 
     @Email(message = "Email invalido")
     private String email;
@@ -47,7 +56,14 @@ public class Users {
     @Pattern(regexp = "\\d{5}-\\d{3}", message = "CEP invalido")
     private String cep;
 
-    @NotEmpty(message = "Informe o número da casa")
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
     private long houseNumber;
 
     @CreatedDate
@@ -61,6 +77,17 @@ public class Users {
 
     @OneToOne(mappedBy = "user")
     private Cart cart;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "users_userrole", joinColumns = @JoinColumn(name = "users_id"), inverseJoinColumns = @JoinColumn(name = "userrole_id"))
+    private List<UserRole> userRoles;
+
+    @PrePersist
+    public void prePersist() {
+        if (createAt == null) {
+            createAt = new Date();
+        }
+    }
 
     public long getId() {
         return id;
@@ -158,4 +185,11 @@ public class Users {
         this.cart = cart;
     }
 
+    public List<UserRole> getUserRoles() {
+        return userRoles;
+    }
+
+    public void setUserRoles(List<UserRole> userRoles) {
+        this.userRoles = userRoles;
+    }
 }

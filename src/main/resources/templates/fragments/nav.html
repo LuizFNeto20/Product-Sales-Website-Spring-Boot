@@ -40,13 +40,12 @@
                     data-bs-toggle="modal">
                     <i class='fa-solid fa-circle-user fs-2'></i>
                 </button>
-
             </div>
         </div>
     </nav>
 
-    <!-- <div class="modal fade position-absolute" style=" top: 5%; left: 25%;" id="exampleModalToggle" aria-hidden="true"
-        aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+    <div th:fragment="modal" class="modal fade position-absolute" style=" top: 5%; left: 25%;" id="exampleModalToggle"
+        aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
         <div class="modal-dialog modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -54,12 +53,15 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-footer">
-                    <a class="btn btn-primary mb-2" href="#">Criar Conta</a>
+                    <a class="btn btn-primary mb-2" href="/login">Login</a>
+
+                    <a class="btn btn-primary mb-2" href="/logout">Logout</a>
+
+                    <a class="btn btn-primary mb-2" href="/user/new">Criar Conta</a>
                 </div>
             </div>
         </div>
-    </div> -->
-
+    </div>
 </body>
 
 </html>

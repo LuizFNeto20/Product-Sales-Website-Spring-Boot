@@ -34,7 +34,7 @@ import jakarta.validation.Valid;
 @RequestMapping("/product")
 public class ProductController {
 
-    private static String imagePath = "/Users/luizf/Desktop/Product-Sales-Website-Spring-Boot/src/main/resources/templates/auth/admin/image/";
+    private static String imagePath = "/Users/luizf/Desktop/Projetos/Spring Boot/Product-Sales-Website-Spring-Boot/src/main/resources/templates/auth/admin/image/";
 
     @Autowired
     private ProductService productService;
