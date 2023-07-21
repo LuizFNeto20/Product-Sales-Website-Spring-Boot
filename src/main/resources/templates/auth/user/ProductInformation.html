@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spring Boot</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/navbar-static/">
+    <script src="https://kit.fontawesome.com/949dcd6b8d.js" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" th:href="@{/bootstrap-5.3.0-dist/css/bootstrap.min.css}">
+    <script th:src="@{/jquery-3.7.0-dist/jquery-3.7.0.min.js}"></script>
+    <script th:src="@{/bootstrap-5.3.0-dist/js/bootstrap.min.js}"></script>
+    <script th:src="@{/bootstrap-5.3.0-dist/js/bootstrap.bundle.min.js}"></script>
+</head>
+
+<body>
+    <div th:replace="~{auth/GenericNav :: GenericNav}"></div>
+
+    <div class="card mb-3" style="width: 100%;">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <img th:src="@{/product/showImage/{image}(image=${product.image})}"
+                    style="width: 300px; margin: 5%; border-radius: 10px;" class="img-fluid rounded-start" alt="...">
+            </div>
+
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h4 class="card-title" th:text="${product.name}"></h4>
+
+                    <h5 class="mt-3"
+                        th:text="'R$: ' + ${#numbers.formatDecimal(product.price, 0, 'COMMA', 2, 'POINT')}"></h5>
+
+                    <h5 class="mt-3 mb-3" th:text="'Marca: ' + ${product.supplier.name}"></h5>
+
+                    <h5 class="mt-3 mb-3" th:text="'Categoria: ' + ${product.category.name}"></h5>
+
+                    <button type="button" class="btn btn-dark" id="carrinho" style="margin: 20% 0 0 25%">Adicionar no
+                        Carrinho</button>
+
+                    <a href='/' class='btn btn-dark' style="margin: 20% 0 0 0">voltar</a>
+                </div>
+            </div>
+
+            <div class="ms-5" style="width: 90%">
+                <hr>
+            </div>
+        </div>
+
+        <h3 class='ms-4 mt-2 mb-2'>Comentarios: </h3>
+
+        <div th:each="rev : ${reviews}" style="width: 80%; margin: 0 auto;">
+            <div class="card mt-3" th:if="${rev.product.id == product.id}">
+                <div class="card-header d-flex align-items-center">
+                    <img style="width: 40px; height: 40px; border-radius: 50%;"
+                        th:src="@{/user/showImage/{image}(image=${rev.user.image})}" alt="">
+                    <h6 th:text="${rev.user.name}"></h6>
+
+                    <span class="ms-2">-</span>
+                    <p th:text="${#dates.format(rev.date, 'dd/MM/yyyy')}" class="ms-2" style="margin-top: 10px;"></p>
+
+                    <a href="#" class="bg-transparent border border-0 text-dark" style="margin: -1% 0 0 78%">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </a>
+
+                    <a th:href="@{/review/admin/delete/{id}(id=${rev.id})}" class="bg-transparent border border-0 text-dark" style="margin: -1% 0 0 1%">
+                        <i class="fa-solid fa-trash"></i>
+                    </a>
+
+                </div>
+                <div class="card-body">
+                    <p class="card-text" th:text="'&quot;' + ${rev.description} + '&quot;'"></p>
+                </div>
+            </div>
+        </div>
+
+        <div sec:authorize="isAuthenticated()">
+            <form action="#" th:action="@{/review/save/{id}(id=${product.id})}" method="post" th:object="${review}">
+
+                <label class='form-label m-4'>
+                    Assessment:
+
+                    <div th:if="${reviews.empty}" th:each="i : ${#numbers.sequence(0, 4)}"
+                        style="display: inline-block;">
+                        <i class='fa-regular fa-star' th:value='${i}'></i>
+                    </div>
+
+                    <div th:unless="${reviews.empty}" th:each="i : ${#numbers.sequence(0, 4)}"
+                        style="display: inline-block;">
+                        <span th:if="${review != null && i >= review.assessment}">
+                            <i class='fa-regular fa-star' th:value='${i}'></i>
+                        </span>
+                        <span th:unless="${review != null && i >= review.assessment}">
+                            <i class='fa-regular fa-solid fa-star' style='color: #ecdb18;' th:value='${i}'></i>
+                        </span>
+                    </div>
+                </label>
+
+                <input type="hidden" id="assessment" name="assessment" th:field="*{assessment}">
+
+                <div class="m-4">
+                    <label for="description" class="form-label">Description</label>
+                    <input type="text" class="form-control" id="description" name="description"
+                        th:field="*{description}">
+                </div>
+
+                <input type="hidden" id="user_id" name="user_id" th:value='${#authentication.getPrincipal().getId()}'>
+
+                <button class="btn btn-dark ms-5 mb-3" type="submit" name="button">Salvar</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let regularStar = document.querySelectorAll('i[value]');
+        let inputAssessment = document.querySelector('#assessment');
+
+        let state = 0;
+        regularStar.forEach((star) => {
+            star.addEventListener('click', function () {
+                if (star.getAttribute('value') < parseInt(state)) {
+                    for (let i = 0; i < regularStar.length; i++) {
+                        regularStar[i].classList.remove('fa-solid');
+                        regularStar[i].removeAttribute('style');
+                    }
+                }
+
+                for (let i = 0; i <= star.getAttribute('value'); i++) {
+                    regularStar[i].classList.add('fa-solid');
+                    regularStar[i].style.color = "#ecdb18";
+                }
+
+                state = star.getAttribute('value');
+                inputAssessment.value = parseInt(state) + 1;
+            });
+        });
+    </script>
+
+</body>
+
+</html>

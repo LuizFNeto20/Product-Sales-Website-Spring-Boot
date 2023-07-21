@@ -23,9 +23,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.productsaleswebsitespringboot.model.Category;
 import com.productsaleswebsitespringboot.model.Product;
+import com.productsaleswebsitespringboot.model.Review;
 import com.productsaleswebsitespringboot.model.Supplier;
 import com.productsaleswebsitespringboot.service.CategoryService;
 import com.productsaleswebsitespringboot.service.ProductService;
+import com.productsaleswebsitespringboot.service.ReviewService;
 import com.productsaleswebsitespringboot.service.SupplierService;
 
 import jakarta.validation.Valid;
@@ -44,6 +46,9 @@ public class ProductController {
 
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private ReviewService reviewService;
 
     @GetMapping("/new")
     public String newProduct(Model model) {
@@ -159,5 +164,15 @@ public class ProductController {
         productService.updateProduct(product);
 
         return "redirect:/product/admin/list";
+    }
+
+    @GetMapping("/info/{id}")
+    public String info(Model model, @PathVariable("id") long id) {
+        Product product = productService.getProductById(id);
+        model.addAttribute("product", product);
+        model.addAttribute("review", new Review());
+        model.addAttribute("reviews", reviewService.getAllReviews(Sort.by(Sort.Direction.ASC, "id")));
+
+        return "/auth/user/ProductInformation";
     }
 }

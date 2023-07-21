@@ -10,10 +10,11 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
 
 @Entity
 public class Review {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -32,6 +33,13 @@ public class Review {
     @ManyToOne
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     private Product product;
+
+    @PrePersist
+    public void prePersist() {
+        if (date == null) {
+            date = new Date();
+        }
+    }
 
     public long getId() {
         return id;
@@ -80,7 +88,5 @@ public class Review {
     public void setProduct(Product product) {
         this.product = product;
     }
-
-    
 
 }
