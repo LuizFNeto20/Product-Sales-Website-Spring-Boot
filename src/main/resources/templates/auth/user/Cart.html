@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spring Boot</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/navbar-static/">
+    <script src="https://kit.fontawesome.com/949dcd6b8d.js" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" th:href="@{/bootstrap-5.3.0-dist/css/bootstrap.min.css}">
+    <script th:src="@{/jquery-3.7.0-dist/jquery-3.7.0.min.js}"></script>
+    <script th:src="@{/bootstrap-5.3.0-dist/js/bootstrap.min.js}"></script>
+    <script th:src="@{/bootstrap-5.3.0-dist/js/bootstrap.bundle.min.js}"></script>
+
+    <style>
+        img {
+            width: 50px;
+            height: 50px;
+            margin: 2% 0 0 2%;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+
+<body>
+    <div th:replace="~{auth/GenericNav :: GenericNav}"></div>
+
+    <h1 class="text-center text-3xl font-bold m-5">Cart:</h1>
+
+    <div class="border mt-3" th:each="cart_product : ${cart_products}" style="width: 80%; margin: 0 auto;">
+        <div th:if="${cart_product.cart.user.id == #authentication.getPrincipal().getId()}">
+            <div th:each="product : ${products}">
+                <div th:if="${cart_product.product.id == product.id}">
+                    <div class="">
+                        <div class="d-flex">
+                            <img th:src="@{/product/showImage/{image}(image=${product.image})}" alt="">
+                            <div
+                                class="w-96 border-r border-b border-l border-gray-400 lg:border-l-0 lg:border-t lg:border-gray-400 bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal">
+                                <div class="mb-8 d-flex">
+                                    <div class="text-gray-900 font-bold text-xl mb-2 flex justify-between"
+                                        th:text="${product.name}">
+                                    </div>
+
+                                    <a th:href="@{/cart/delete/{id}(id=${cart_product.product.id})}" type="button" style="margin-left: 710px;" class="bg-transparent text-black py-1 px-1 rounded"><i
+                                            class="fa-solid fa-circle-xmark"></i></a>
+                                </div>
+                                <div class="flex items-center">
+                                    <div class="text-sm">
+                                        <p class="text-gray-900 leading-none"
+                                            th:text="${cart_product.quantity} + 'x
+                                        --------------------------------------- R$ ' + ${#numbers.formatDecimal(cart_product.quantity * product.price, 0, 'COMMA', 2, 'POINT')}">
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-center mt-3">
+        <a href="/order/save" type="button" class='btn btn-dark ms-2'>Buy</a>
+
+        <a href="/cart/cancel" type="button" class='btn btn-dark ms-2'>Cancel</a>
+    </div>
+</body>
+
+</html>

@@ -43,8 +43,8 @@ public class Product {
     @ManyToMany(mappedBy = "products", fetch = FetchType.EAGER)
     private List<Orders> orders;
 
-    @ManyToMany(mappedBy = "products", fetch = FetchType.EAGER)
-    private List<Cart> carts;
+    @OneToMany(mappedBy = "product")
+    private List<Cart_Product> cart_Product;
 
     public long getId() {
         return id;
@@ -110,12 +110,11 @@ public class Product {
         this.orders = orders;
     }
 
-    public List<Cart> getCarts() {
-        return carts;
+    public List<Cart_Product> getCart_Product() {
+        return cart_Product;
     }
 
-    public void setCarts(List<Cart> carts) {
-        this.carts = carts;
+    public void setCart_Product(List<Cart_Product> cart_Product) {
+        this.cart_Product = cart_Product;
     }
-
 }

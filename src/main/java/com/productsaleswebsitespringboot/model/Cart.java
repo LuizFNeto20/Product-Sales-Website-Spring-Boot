@@ -2,14 +2,13 @@ package com.productsaleswebsitespringboot.model;
 
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 
 @Entity
@@ -19,15 +18,12 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private int quantity;
-
     @OneToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JoinColumn(name = "user_id", referencedColumnName = "id", unique = false)
     private Users user;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "cart_product", joinColumns = @JoinColumn(name = "cart_id"), inverseJoinColumns = @JoinColumn(name = "product_id"))
-    private List<Product> products;
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
+    private List<Cart_Product> cart_Product;
 
     @OneToOne
     @JoinColumn(name = "order_id", referencedColumnName = "id")
@@ -41,28 +37,12 @@ public class Cart {
         this.id = id;
     }
 
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
     public Users getUser() {
         return user;
     }
 
     public void setUser(Users user) {
         this.user = user;
-    }
-
-    public List<Product> getProducts() {
-        return products;
-    }
-
-    public void setProducts(List<Product> products) {
-        this.products = products;
     }
 
     public Orders getOrder() {
@@ -73,4 +53,11 @@ public class Cart {
         this.order = order;
     }
 
+    public List<Cart_Product> getCart_Product() {
+        return cart_Product;
+    }
+
+    public void setCart_Product(List<Cart_Product> cart_Product) {
+        this.cart_Product = cart_Product;
+    }
 }

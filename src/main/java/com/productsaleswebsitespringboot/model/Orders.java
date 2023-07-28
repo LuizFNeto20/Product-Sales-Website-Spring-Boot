@@ -15,6 +15,7 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrePersist;
 
 @Entity
 public class Orders {
@@ -38,6 +39,13 @@ public class Orders {
 
     @OneToOne(mappedBy = "order")
     private Cart cart;
+
+    @PrePersist
+    public void prePersist() {
+        if (date == null) {
+            date = new Date();
+        }
+    }
 
     public Cart getCart() {
         return cart;

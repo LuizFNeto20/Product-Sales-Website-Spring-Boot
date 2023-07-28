@@ -173,6 +173,28 @@ public class ProductController {
         model.addAttribute("review", new Review());
         model.addAttribute("reviews", reviewService.getAllReviews(Sort.by(Sort.Direction.ASC, "id")));
 
+        List<Review> reviews = reviewService.getAllReviews(Sort.by(Sort.Direction.ASC, "id"));
+
+        int avg = 0, sum = 0, count = 0;
+
+        if (!reviews.isEmpty()) {
+            count = 0;
+            for (Review review : reviews) {
+                if (review.getProduct().getId() == id) {
+                    sum = sum + review.getAssessment();
+                    count++;
+                }
+            }
+        }
+
+        if (count > 0) {
+            avg = sum / count;
+        } else {
+            avg = 0;
+        }
+        
+        model.addAttribute("avgAssessment", avg);
+
         return "/auth/user/ProductInformation";
     }
 }

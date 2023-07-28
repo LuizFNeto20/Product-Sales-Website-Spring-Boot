@@ -35,7 +35,8 @@ public class ReviewController {
 
     @PostMapping("/save/{id}")
     public String saveReview(@Valid Review review, BindingResult result,
-            RedirectAttributes attributes, Model model, @PathVariable("id") long idProduct, @RequestParam("user_id") long idUser) {
+            RedirectAttributes attributes, Model model, @PathVariable("id") long idProduct, 
+            @RequestParam("user_id") long idUser) {
 
         if (result.hasErrors()) {
             return "redirect:/product/info/" + idProduct;

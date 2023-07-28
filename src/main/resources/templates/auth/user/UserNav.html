@@ -17,11 +17,9 @@
                     </li>
                 </ul>
 
-                <button class="bg-transparent border border-0 ms-3 btcarrinho">
-                    <span class="bg-white rounded-circle position-absolute"
-                        style='width: 2%; top: 10%; right: 6%; border: 2px black solid'>0</span>
+                <a class="bg-transparent border border-0 ms-3 btcarrinho" th:href="@{/cart/show}">
                     <i class="fa-solid fa-cart-shopping fs-4" style="color: #ffffff;"></i>
-                </button>
+                </a>
 
                 <ul th:replace="auth/AuthNav :: nav"></ul>
 
